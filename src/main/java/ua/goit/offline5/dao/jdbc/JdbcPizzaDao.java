@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andreymi on 2/27/2017.
@@ -35,7 +37,7 @@ public class JdbcPizzaDao implements PizzaDao {
     }
 
     @Override
-    public Pizza create(String name, BigDecimal price, Collection<Component> components) {
+    public Pizza create(String name, BigDecimal price, Set<Component> components) {
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
@@ -66,7 +68,7 @@ public class JdbcPizzaDao implements PizzaDao {
             }
             //
             Pizza pizza = new Pizza();
-            pizza.setId(id);
+            pizza.setId(-1);
             pizza.setComponents(components);
             pizza.setName(name);
             pizza.setPrize(price);
@@ -109,7 +111,7 @@ public class JdbcPizzaDao implements PizzaDao {
             try (PreparedStatement ps = connection.prepareStatement(GET_COMPONENTS)) {
                 ps.setLong(1, id);
                 try (ResultSet resultSet = ps.executeQuery()) {
-                    Collection<Component> components = new ArrayList<>();
+                    Set<Component> components = new HashSet<>();
                     while (resultSet.next()) {
                         Component component = new Component();
                         component.setId(resultSet.getLong("id"));

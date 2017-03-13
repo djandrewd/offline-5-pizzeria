@@ -1,22 +1,43 @@
 package ua.goit.offline5.dao.model;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.math.BigDecimal;
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Created by andreymi on 2/27/2017.
  */
+@Entity
+@Table(name = "pizza", schema = "pizzeria")
 public class Pizza {
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    @Column(name = "name")
     private String name;
     private BigDecimal prize;
-    private Collection<Component> components;
 
-    public long getId() {
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "pizza_components", schema = "pizzeria",
+              joinColumns = {@JoinColumn(name = "pizza_id")},
+              inverseJoinColumns = {@JoinColumn(name = "component_id")})
+    private Set<Component> components;
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -36,11 +57,12 @@ public class Pizza {
         this.prize = prize;
     }
 
-    public Collection<Component> getComponents() {
+
+    public Set<Component> getComponents() {
         return components;
     }
 
-    public void setComponents(Collection<Component> components) {
+    public void setComponents(Set<Component> components) {
         this.components = components;
     }
 
