@@ -10,4 +10,6 @@ import java.math.BigDecimal;
 public interface ComponentDao {
     Component read(long id);
     Component create(String name, BigDecimal price);
+    // Method return component with max value.
+    Component topPrice();
 }

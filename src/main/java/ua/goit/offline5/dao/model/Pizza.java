@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -27,7 +29,7 @@ public class Pizza {
     private String name;
     private BigDecimal prize;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(name = "pizza_components", schema = "pizzeria",
               joinColumns = {@JoinColumn(name = "pizza_id")},
               inverseJoinColumns = {@JoinColumn(name = "component_id")})

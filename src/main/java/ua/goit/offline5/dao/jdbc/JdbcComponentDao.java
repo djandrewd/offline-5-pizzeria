@@ -30,6 +30,11 @@ public class JdbcComponentDao implements ComponentDao {
     }
 
     @Override
+    public Component topPrice() {
+        return null;
+    }
+
+    @Override
     public Component read(long id) {
         try (Connection connection = getConnection()) {
             try (PreparedStatement ps = connection.prepareStatement(GET_SQL)) {
